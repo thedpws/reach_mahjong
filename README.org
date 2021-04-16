@@ -3,7 +3,7 @@
 A cross-platform reach mahjong game. [[https://en.wikipedia.org/wiki/Japanese_Mahjong][Wikipedia]]
 
 ** Attributions
-Riichi Tiles is from [[https://github.com/FluffyStuff/riichi-mahjong-tiles][FluffyStuff/riichi-mahjong-tiles]] and is licensed under [[https://creativecommons.org/licenses/by/4.0/][Creative Commons Attribution 4.0 International License]]
+Tile visual asset set is from [[https://github.com/FluffyStuff/riichi-mahjong-tiles][FluffyStuff/riichi-mahjong-tiles]] and is licensed under [[https://creativecommons.org/licenses/by/4.0/][Creative Commons Attribution 4.0 International License]]
 
 * Features (TODO)
 
