@@ -1,28 +1,29 @@
 * reach_mahjong
 
-A cross-platform reach mahjong game. [[https://en.wikipedia.org/wiki/Japanese_Mahjong]]
+A cross-platform reach mahjong game. [[https://en.wikipedia.org/wiki/Japanese_Mahjong][Wikipedia]]
 
+** Attributions
+Riichi Tiles is from [[https://github.com/FluffyStuff/riichi-mahjong-tiles][FluffyStuff/riichi-mahjong-tiles]] and is licensed under [[https://creativecommons.org/licenses/by/4.0/][Creative Commons Attribution 4.0 International License]]
 
 * Features (TODO)
 
 ** Menu
-Should say the name of the game "Reach Mahjong"
-Button to "Start game"
-Button to see "About us"
+*** Should say the name of the game "Reach Mahjong"
+*** Button to "Start game"
+*** Button to see "About us"
 
 ** Fully visual mahjong table
-Tile assets. Preferably 3d-looking.
-Should be able to see all tiles on table. (Player discards, Also Kong/Pong melds)
-Should be able to see current wind and round
+*** Tile assets. Preferably 3d-looking.
+*** Should be able to see all tiles on table. (Player discards, Also Kong/Pong melds)
+*** Should be able to see current wind and round
 
 ** Hand
-Should organize by suit
-Should show actions during other players' turns
-Should notify when Tempai.
+*** Should organize by suit
+*** Should show actions during other players' turns
+*** Should notify when Tempai.
 
 ** AI
-Should have different difficulties
-Easy: make mistakes
-Medium: Go for low-value hands
-Hard: Go for high-value hands
-
+*** Should have different difficulties
+*** Easy: make mistakes
+*** Medium: Go for low-value hands
+*** Hard: Go for high-value hands
