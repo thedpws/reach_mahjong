@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/gestures.dart';
+import 'dart:core';
 
 void main() {
   runApp(MainApp());
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (context) => HomePage(),
         '/about': (context) => AboutPage(),
-        '/game': (context) => GameWidget(game: SpriteGame()),
+        '/game': (context) => GamePage(),
       },
       color: Colors.white,
     );
@@ -39,7 +40,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
 
-              Text('Riichi Mahjong'),
+              Text('helllo Mahjongooooooooooooo'),
 
               CupertinoButton(
                 child: Text('Start game'),
@@ -100,6 +101,38 @@ class SquareGame extends Game {
   void render(Canvas canvas) {
     canvas.drawRect(squarePos, SQUARE_PAINT);
   }
+}
+
+class MGame extends Game with TapDetector {
+
+  @override
+  void onTapDown(TapDownDetails event) {
+  }
+
+  @override
+  void onTapUp(TapUpDetails event) {
+  }
+
+  @override
+  void onTapCancel() {
+  }
+
+
+  @override
+  Future<void> onLoad() async {
+  }
+
+  @override
+  void update(double dt) {
+  }
+
+  @override
+  void render(Canvas canvas) {
+  }
+
+  @override
+  Color backgroundColor() => const Color(0xff35654d);
+
 }
 
 
@@ -186,4 +219,103 @@ class SpriteGame extends Game with TapDetector {
   @override
   Color backgroundColor() => const Color(0xFF222222);
 
+}
+
+class GamePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+
+        GameWidget(game: MGame()),
+
+        GameUI(),
+      ],
+    );
+  }
+
+}
+
+
+class Tile extends StatelessWidget {
+  final MTile mTile;
+  Tile(this.mTile);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 60,
+      height: 80,
+      child: Stack(
+        children: <Widget> [
+          Image.asset('assets/images/tiles/Front.png'),
+          Image.asset('assets/images/tiles/${mTile.name}.png'),
+        ]
+      ),
+    );
+  }
+}
+
+
+class MTile {
+  const MTile(this.name);
+  final String name;
+}
+
+
+class Hand extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() => new HandState();
+
+}
+
+class HandState extends State<Hand> {
+
+  final List<MTile> hand = <MTile>[
+      new MTile("Man1"),
+      new MTile("Man2"),
+      new MTile("Man3"),
+      new MTile("Pin4"),
+      new MTile("Pin4"),
+      new MTile("Pin4"),
+      new MTile("Sou4"),
+      new MTile("Sou5"),
+      new MTile("Sou6"),
+      new MTile("Chun"),
+      new MTile("Chun"),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: this.hand.map<Tile>((mTile) => Tile(mTile)).toList()
+    );
+  }
+}
+
+class GameUI extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(50.0),
+
+            // hand
+            child: Hand(),
+          )
+        ]
+      ),
+    );
+  }
 }
