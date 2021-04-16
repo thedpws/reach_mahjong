@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flame/sprite.dart';
+import 'package:flame/gestures.dart';
 
 void main() {
-  runApp(GameWidget(game: MyGame()));
+  runApp(GameWidget(game: SpriteGame()));
 }
 
 
-class MyGame extends Game {
+class SquareGame extends Game {
 
-  static const int SQUARE_SPEED = 20;
+  static const int SQUARE_SPEED = 200;
 
   static final SQUARE_PAINT = BasicPalette.white.paint();
 
@@ -35,4 +37,82 @@ class MyGame extends Game {
   void render(Canvas canvas) {
     canvas.drawRect(squarePos, SQUARE_PAINT);
   }
+}
+
+
+class SpriteGame extends Game with TapDetector {
+
+  late SpriteAnimation runningRobot;
+  late Sprite pressedButton;
+  late Sprite unpressedButton;
+
+
+  final buttonPosition = Vector2(175-32, 425);
+  final buttonSize = Vector2(120, 30);
+  bool isPressed = false;
+
+  final robotPosition = Vector2(175, 350);
+  final robotSize = Vector2(48, 60);
+
+  @override
+  void onTapDown(TapDownDetails event) {
+    final buttonArea = buttonPosition & buttonSize;
+    isPressed = buttonArea.contains(event.globalPosition);
+  }
+
+  @override
+  void onTapUp(TapUpDetails event) {
+    isPressed = false;
+  }
+
+  @override
+  void onTapCancel() {
+    isPressed = false;
+  }
+
+
+  @override
+  Future<void> onLoad() async {
+    runningRobot = await loadSpriteAnimation(
+      'robot.png',
+      SpriteAnimationData.sequenced(
+        amount: 8,
+        textureSize: Vector2(16, 18),
+        stepTime: 0.1,
+      )
+    );
+
+    unpressedButton = await loadSprite(
+      'buttons.png',
+      srcPosition: Vector2.zero(),
+      srcSize: Vector2(60, 20),
+    );
+
+    pressedButton = await loadSprite(
+      'buttons.png',
+      srcPosition: Vector2(0, 20),
+      srcSize: Vector2(60, 20),
+    );
+  }
+
+  @override
+  void update(double dt) {
+    if (isPressed)
+      runningRobot.update(dt);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    runningRobot
+      .getSprite()
+      .render(canvas, position: robotPosition, size: robotSize);
+
+    final Sprite button = isPressed ? pressedButton : unpressedButton;
+
+    button.render(canvas, position: buttonPosition, size: buttonSize);
+  }
+
+  @override
+  Color backgroundColor() => const Color(0xFF222222);
+
 }
