@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -5,9 +6,71 @@ import 'package:flame/sprite.dart';
 import 'package:flame/gestures.dart';
 
 void main() {
-  runApp(GameWidget(game: SpriteGame()));
+  runApp(MainApp());
 }
 
+
+class MainApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return CupertinoApp(
+      routes: <String, WidgetBuilder>{
+        '/': (context) => HomePage(),
+        '/about': (context) => AboutPage(),
+        '/game': (context) => GameWidget(game: SpriteGame()),
+      },
+      color: Colors.white,
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+
+              Text('Riichi Mahjong'),
+
+              CupertinoButton(
+                child: Text('Start game'),
+                onPressed: () => { Navigator.pushNamed(context, '/game') },
+              ),
+
+              CupertinoButton(
+                child: Text('About us'),
+                onPressed: () => { Navigator.pushNamed(context, '/about') },
+              ),
+
+            ]
+          )
+        )
+      )
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('About route'),
+      ),
+      child: Center(child: Icon(CupertinoIcons.share)),
+    );
+  }
+}
 
 class SquareGame extends Game {
 
