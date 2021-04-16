@@ -45,6 +45,7 @@ class SpriteGame extends Game with TapDetector {
   late SpriteAnimation runningRobot;
   late Sprite pressedButton;
   late Sprite unpressedButton;
+  late Sprite tile;
 
 
   final buttonPosition = Vector2(175-32, 425);
@@ -53,6 +54,9 @@ class SpriteGame extends Game with TapDetector {
 
   final robotPosition = Vector2(175, 350);
   final robotSize = Vector2(48, 60);
+
+  final tilePosition = Vector2(175, 350);
+  final tileSize = Vector2(40, 50);
 
   @override
   void onTapDown(TapDownDetails event) {
@@ -93,6 +97,8 @@ class SpriteGame extends Game with TapDetector {
       srcPosition: Vector2(0, 20),
       srcSize: Vector2(60, 20),
     );
+
+    tile = await loadSprite('tiles/Chun.png');
   }
 
   @override
@@ -110,6 +116,8 @@ class SpriteGame extends Game with TapDetector {
     final Sprite button = isPressed ? pressedButton : unpressedButton;
 
     button.render(canvas, position: buttonPosition, size: buttonSize);
+
+    tile.render(canvas, position: tilePosition, size: tileSize);
   }
 
   @override
