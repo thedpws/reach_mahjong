@@ -20,7 +20,7 @@ class Dora extends StatelessWidget {
               padding: EdgeInsets.all(4.0),
           )]
         )..addAll(
-          this.dora.map<Widget>((MTile mTile) => Tile(mTile, () {}, false)).toList()
+          this.dora.map<Widget>((MTile mTile) => Tile(mTile, () {}, height: 32.0, width: 24.0)).toList()
         ),
       ),
     );

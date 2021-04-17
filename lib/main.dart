@@ -150,10 +150,15 @@ class GameUI extends StatelessWidget {
         child: Stack(
           children: <Widget>[
 
-            // discards
+            // table
             Padding(
               padding: EdgeInsets.all(4.0),
-              child: Discards()
+              child: MahjongTable(
+                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
+              )
             ),
 
             // dora

@@ -47,7 +47,7 @@ class _HandState extends State<Hand> {
       // Align bottom
       crossAxisAlignment: CrossAxisAlignment.end,
 
-      children: buildHandView(this.hand).map<Tile>((MTile mTile) => Tile(mTile, onTap(mTile), activeTile != null && mTile == activeTile)).toList()
+      children: buildHandView(this.hand).map<Tile>((MTile mTile) => Tile(mTile, onTap(mTile), height: activeTile != null && mTile == activeTile ? 85 : 60)).toList()
     );
   }
 }
