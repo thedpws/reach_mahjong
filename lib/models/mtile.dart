@@ -7,3 +7,7 @@ class MTile {
 class EmptyMTile extends MTile {
   EmptyMTile() : super(null);
 }
+
+class BlankMTile extends MTile {
+  BlankMTile() : super('Blank');
+}

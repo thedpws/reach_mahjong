@@ -145,21 +145,29 @@ class GameUI extends StatelessWidget {
         new MTile('Chun'),
     ];
 
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(50.0),
+    return SafeArea(
+      child: Center(
+        child: Stack(
+          children: <Widget>[
+
+            // discards
+            Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Discards()
+            ),
+
 
             // hand
-            child: Hand(hand),
-
-          )
-        ]
-      ),
+            Column(
+              children: <Widget>[
+                Expanded(child: Container()),
+                Hand(hand),
+                SizedBox(height: 20),
+              ],
+            ),
+          ]
+        ),
+      )
     );
   }
 }
