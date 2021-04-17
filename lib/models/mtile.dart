@@ -11,3 +11,7 @@ class EmptyMTile extends MTile {
 class BlankMTile extends MTile {
   BlankMTile() : super('Blank');
 }
+
+class RandomMTile extends MTile {
+  RandomMTile() : super('Blank');
+}

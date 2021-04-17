@@ -156,6 +156,12 @@ class GameUI extends StatelessWidget {
               child: Discards()
             ),
 
+            // dora
+            Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Dora([MTile('Pin5-Dora')]),
+            ),
+
 
             // hand
             Column(

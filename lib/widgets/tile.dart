@@ -9,7 +9,8 @@ class Tile extends StatelessWidget {
   final onTap;
   final bool isActive;
 
-  Tile(this.mTile, this.onTap, this.isActive);
+
+  const Tile(this.mTile, this.onTap, this.isActive);
 
   @override
   Widget build(BuildContext context) {
