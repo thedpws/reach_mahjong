@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
 
-              Text('helllo Mahjongooooooooooooo'),
+              Text('Riichi Mahjong'),
 
               CupertinoButton(
                 child: Text('Start game'),
@@ -241,59 +241,103 @@ class GamePage extends StatelessWidget {
 
 
 class Tile extends StatelessWidget {
+
   final MTile mTile;
-  Tile(this.mTile);
+  final onTap;
+  final bool isActive;
+
+  Tile(this.mTile, this.onTap, this.isActive);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 60,
-      height: 80,
-      child: Stack(
-        children: <Widget> [
-          Image.asset('assets/images/tiles/Front.png'),
-          Image.asset('assets/images/tiles/${mTile.name}.png'),
-        ]
+
+    double fitMultiplier = 4/5;
+    double tWidth = 60.0 * fitMultiplier;
+    double tHeight = 80.0 * fitMultiplier;
+    if (this.mTile.name == null) return SizedBox(width: tWidth, height: tHeight);
+    return GestureDetector(
+      child: SizedBox(
+        width: tWidth,
+        height: tHeight * (this.isActive ? 1.4 : 1.0),
+        child: Stack(
+          children: <Widget> [
+            Image.asset('assets/images/tiles/Front.png'),
+            Image.asset('assets/images/tiles/${mTile.name}.png'),
+          ]
+        ),
       ),
+      onTap: this.onTap,
     );
   }
 }
 
+/*
+  Requirements for hand and tile
+  Clicking on tile will activate it.
+    Clicking on it again will discard it from the hand
+    Clicking on another tile will deactivate it.
+    When activated, tile is raised or highlighted.
+
+  Make tiles stateless and hand stateful. From hand, pass an onTap that will...
+    if activeIndex is not i,
+      set activeIndex to i
+    else
+      discard i
+*/
+
 
 class MTile {
-  const MTile(this.name);
-  final String name;
+  const MTile([this.name]);
+  final String? name;
 }
 
 
 class Hand extends StatefulWidget {
+  const Hand({Key? key }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new HandState();
+  _HandState createState() => _HandState();
 
 }
 
-class HandState extends State<Hand> {
+class _HandState extends State<Hand> {
 
-  final List<MTile> hand = <MTile>[
-      new MTile("Man1"),
-      new MTile("Man2"),
-      new MTile("Man3"),
-      new MTile("Pin4"),
-      new MTile("Pin4"),
-      new MTile("Pin4"),
-      new MTile("Sou4"),
-      new MTile("Sou5"),
-      new MTile("Sou6"),
-      new MTile("Chun"),
-      new MTile("Chun"),
+  List<MTile> hand = <MTile>[
+      new MTile('Man1'),
+      new MTile('Man2'),
+      new MTile('Man3'),
+      new MTile('Pin4'),
+      new MTile('Pin4'),
+      new MTile('Pin4'),
+      new MTile('Sou4'),
+      new MTile('Sou5'),
+      new MTile('Sou6'),
+      new MTile('Chun'),
   ];
+
+  MTile newTile = new MTile('Sou7');
+
+  MTile? activeTile = null;
+
 
   @override
   Widget build(BuildContext context) {
+
+    if (activeTile == null)
+      activeTile = newTile;
+
+    dynamic onTap(MTile t) {
+      return () => setState( (){
+          activeTile = t;
+      });
+    }
+
+    List<MTile> handToShow = new List.from(hand)..addAll([new MTile(), this.newTile]);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: this.hand.map<Tile>((mTile) => Tile(mTile)).toList()
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: handToShow.map<Tile>((mTile) => Tile(mTile, onTap(mTile), activeTile != null && mTile == activeTile)).toList()
     );
   }
 }
