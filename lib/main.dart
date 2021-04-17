@@ -73,36 +73,6 @@ class AboutPage extends StatelessWidget {
   }
 }
 
-class SquareGame extends Game {
-
-  static const int SQUARE_SPEED = 200;
-
-  static final SQUARE_PAINT = BasicPalette.white.paint();
-
-  late Rect squarePos;
-
-  int squareDirection = 1;
-
-  @override
-  Future<void> onLoad() async {
-    squarePos = Rect.fromLTWH(0, 0, 100, 100);
-  }
-
-  @override
-  void update(double dt) {
-    squarePos = squarePos.translate(SQUARE_SPEED * squareDirection * dt, 0);
-
-    if (squarePos.right > size.x || squarePos.left < 0)
-      squareDirection *= -1;
-  }
-
-
-  @override
-  void render(Canvas canvas) {
-    canvas.drawRect(squarePos, SQUARE_PAINT);
-  }
-}
-
 class MGame extends Game with TapDetector {
 
   @override
@@ -135,91 +105,6 @@ class MGame extends Game with TapDetector {
 
 }
 
-
-class SpriteGame extends Game with TapDetector {
-
-  late SpriteAnimation runningRobot;
-  late Sprite pressedButton;
-  late Sprite unpressedButton;
-  late Sprite tile;
-
-
-  final buttonPosition = Vector2(175-32, 425);
-  final buttonSize = Vector2(120, 30);
-  bool isPressed = false;
-
-  final robotPosition = Vector2(175, 350);
-  final robotSize = Vector2(48, 60);
-
-  final tilePosition = Vector2(175, 350);
-  final tileSize = Vector2(40, 50);
-
-  @override
-  void onTapDown(TapDownDetails event) {
-    final buttonArea = buttonPosition & buttonSize;
-    isPressed = buttonArea.contains(event.globalPosition);
-  }
-
-  @override
-  void onTapUp(TapUpDetails event) {
-    isPressed = false;
-  }
-
-  @override
-  void onTapCancel() {
-    isPressed = false;
-  }
-
-
-  @override
-  Future<void> onLoad() async {
-    runningRobot = await loadSpriteAnimation(
-      'robot.png',
-      SpriteAnimationData.sequenced(
-        amount: 8,
-        textureSize: Vector2(16, 18),
-        stepTime: 0.1,
-      )
-    );
-
-    unpressedButton = await loadSprite(
-      'buttons.png',
-      srcPosition: Vector2.zero(),
-      srcSize: Vector2(60, 20),
-    );
-
-    pressedButton = await loadSprite(
-      'buttons.png',
-      srcPosition: Vector2(0, 20),
-      srcSize: Vector2(60, 20),
-    );
-
-    tile = await loadSprite('tiles/Chun.png');
-  }
-
-  @override
-  void update(double dt) {
-    if (isPressed)
-      runningRobot.update(dt);
-  }
-
-  @override
-  void render(Canvas canvas) {
-    runningRobot
-      .getSprite()
-      .render(canvas, position: robotPosition, size: robotSize);
-
-    final Sprite button = isPressed ? pressedButton : unpressedButton;
-
-    button.render(canvas, position: buttonPosition, size: buttonSize);
-
-    tile.render(canvas, position: tilePosition, size: tileSize);
-  }
-
-  @override
-  Color backgroundColor() => const Color(0xFF222222);
-
-}
 
 class GamePage extends StatelessWidget {
 
@@ -271,73 +156,53 @@ class Tile extends StatelessWidget {
   }
 }
 
-/*
-  Requirements for hand and tile
-  Clicking on tile will activate it.
-    Clicking on it again will discard it from the hand
-    Clicking on another tile will deactivate it.
-    When activated, tile is raised or highlighted.
 
-  Make tiles stateless and hand stateful. From hand, pass an onTap that will...
-    if activeIndex is not i,
-      set activeIndex to i
-    else
-      discard i
-*/
-
-
-class MTile {
-  const MTile([this.name]);
-  final String? name;
-}
 
 
 class Hand extends StatefulWidget {
-  const Hand({Key? key }) : super(key: key);
+
+  final List<MTile> hand;
+  Hand(this.hand, { Key? key }) : super(key: key);
 
   @override
-  _HandState createState() => _HandState();
+  _HandState createState() => _HandState(hand);
 
 }
 
 class _HandState extends State<Hand> {
 
-  List<MTile> hand = <MTile>[
-      new MTile('Man1'),
-      new MTile('Man2'),
-      new MTile('Man3'),
-      new MTile('Pin4'),
-      new MTile('Pin4'),
-      new MTile('Pin4'),
-      new MTile('Sou4'),
-      new MTile('Sou5'),
-      new MTile('Sou6'),
-      new MTile('Chun'),
-  ];
+  final List<MTile> hand;
+
+  _HandState(this.hand);
+
 
   MTile newTile = new MTile('Sou7');
 
-  MTile? activeTile = null;
+  late MTile activeTile = newTile;
 
 
   @override
   Widget build(BuildContext context) {
 
-    if (activeTile == null)
-      activeTile = newTile;
-
+    // Retrieve the OnTap event from the children and handle them here in the parent.
     dynamic onTap(MTile t) {
       return () => setState( (){
           activeTile = t;
       });
     }
 
-    List<MTile> handToShow = new List.from(hand)..addAll([new MTile(), this.newTile]);
+    List<MTile> buildHandView(List<MTile> hand) {
+      return new List.from(hand)..addAll([new EmptyMTile(), this.newTile]);
+    }
 
     return Row(
+      // Spacing
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+      // Align bottom
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: handToShow.map<Tile>((mTile) => Tile(mTile, onTap(mTile), activeTile != null && mTile == activeTile)).toList()
+
+      children: buildHandView(this.hand).map<Tile>((MTile mTile) => Tile(mTile, onTap(mTile), activeTile != null && mTile == activeTile)).toList()
     );
   }
 }
@@ -345,6 +210,19 @@ class _HandState extends State<Hand> {
 class GameUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    List<MTile> hand = <MTile>[
+        new MTile('Man1'),
+        new MTile('Man2'),
+        new MTile('Man3'),
+        new MTile('Pin4'),
+        new MTile('Pin4'),
+        new MTile('Pin4'),
+        new MTile('Sou4'),
+        new MTile('Sou5'),
+        new MTile('Sou6'),
+        new MTile('Chun'),
+    ];
 
     return Center(
       child: Column(
@@ -356,10 +234,21 @@ class GameUI extends StatelessWidget {
             padding: EdgeInsets.all(50.0),
 
             // hand
-            child: Hand(),
+            child: Hand(hand),
+
           )
         ]
       ),
     );
   }
+}
+
+
+class MTile {
+  const MTile(this.name);
+  final String? name;
+}
+
+class EmptyMTile extends MTile {
+  EmptyMTile() : super(null);
 }
