@@ -1,10 +1,13 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/gestures.dart';
-import 'dart:core';
+
+import 'widgets.dart';
+import 'models.dart';
+
 
 void main() {
   runApp(MainApp());
@@ -125,88 +128,6 @@ class GamePage extends StatelessWidget {
 }
 
 
-class Tile extends StatelessWidget {
-
-  final MTile mTile;
-  final onTap;
-  final bool isActive;
-
-  Tile(this.mTile, this.onTap, this.isActive);
-
-  @override
-  Widget build(BuildContext context) {
-
-    double fitMultiplier = 4/5;
-    double tWidth = 60.0 * fitMultiplier;
-    double tHeight = 80.0 * fitMultiplier;
-    if (this.mTile.name == null) return SizedBox(width: tWidth, height: tHeight);
-    return GestureDetector(
-      child: SizedBox(
-        width: tWidth,
-        height: tHeight * (this.isActive ? 1.4 : 1.0),
-        child: Stack(
-          children: <Widget> [
-            Image.asset('assets/images/tiles/Front.png'),
-            Image.asset('assets/images/tiles/${mTile.name}.png'),
-          ]
-        ),
-      ),
-      onTap: this.onTap,
-    );
-  }
-}
-
-
-
-
-class Hand extends StatefulWidget {
-
-  final List<MTile> hand;
-  Hand(this.hand, { Key? key }) : super(key: key);
-
-  @override
-  _HandState createState() => _HandState(hand);
-
-}
-
-class _HandState extends State<Hand> {
-
-  final List<MTile> hand;
-
-  _HandState(this.hand);
-
-
-  MTile newTile = new MTile('Sou7');
-
-  late MTile activeTile = newTile;
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    // Retrieve the OnTap event from the children and handle them here in the parent.
-    dynamic onTap(MTile t) {
-      return () => setState( (){
-          activeTile = t;
-      });
-    }
-
-    List<MTile> buildHandView(List<MTile> hand) {
-      return new List.from(hand)..addAll([new EmptyMTile(), this.newTile]);
-    }
-
-    return Row(
-      // Spacing
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-      // Align bottom
-      crossAxisAlignment: CrossAxisAlignment.end,
-
-      children: buildHandView(this.hand).map<Tile>((MTile mTile) => Tile(mTile, onTap(mTile), activeTile != null && mTile == activeTile)).toList()
-    );
-  }
-}
-
 class GameUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -244,11 +165,3 @@ class GameUI extends StatelessWidget {
 }
 
 
-class MTile {
-  const MTile(this.name);
-  final String? name;
-}
-
-class EmptyMTile extends MTile {
-  EmptyMTile() : super(null);
-}
