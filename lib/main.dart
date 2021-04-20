@@ -176,6 +176,13 @@ class GameUI extends StatelessWidget {
                 SizedBox(height: 20),
               ],
             ),
+
+            Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                children: List<Score>.generate(4, (int i) => Score("Wind ${i}", 5000)),
+              ),
+            ),
           ]
         ),
       )

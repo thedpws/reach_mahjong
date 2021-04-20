@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 class MahjongTable extends StatelessWidget {
 
+  // TODO: Include unconcealed melds
   List<MDiscard> mNorthDiscards;
   List<MDiscard> mEastDiscards;
   List<MDiscard> mSouthDiscards;
