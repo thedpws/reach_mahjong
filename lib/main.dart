@@ -183,6 +183,14 @@ class GameUI extends StatelessWidget {
                 children: List<Score>.generate(4, (int i) => Score("Wind ${i}", 5000)),
               ),
             ),
+
+            Center(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SettingsMenu(),
+              ),
+            ),
+
           ]
         ),
       )

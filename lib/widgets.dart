@@ -4,3 +4,4 @@ export 'widgets/discards.dart';
 export 'widgets/dora.dart';
 export 'widgets/mahjong_table.dart';
 export 'widgets/score.dart';
+export 'widgets/settings.dart';
