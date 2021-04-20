@@ -133,16 +133,16 @@ class GameUI extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<MTile> hand = <MTile>[
-        new MTile('Man1'),
-        new MTile('Man2'),
-        new MTile('Man3'),
-        new MTile('Pin4'),
-        new MTile('Pin4'),
-        new MTile('Pin4'),
-        new MTile('Sou4'),
-        new MTile('Sou5'),
-        new MTile('Sou6'),
-        new MTile('Chun'),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
+        RandomMTile(),
     ];
 
     return SafeArea(

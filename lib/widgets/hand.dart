@@ -21,7 +21,7 @@ class _HandState extends State<Hand> {
   _HandState(this.hand);
 
 
-  MTile newTile = new MTile('Sou7');
+  MTile newTile = new RandomMTile();
 
   late MTile activeTile = newTile;
 
