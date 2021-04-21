@@ -36,8 +36,8 @@ class _HandState extends State<Hand> {
       });
     }
 
-    List<MTile> buildHandView(List<MTile> hand) {
-      return List.from(hand)..addAll([MTile.empty(), this.newTile]);
+    List<MTile> buildHandView(List<MTile> hand, MTile draw) {
+      return List.from(hand)..addAll([MTile.empty(), draw]);
     }
 
     return Row(
@@ -47,7 +47,16 @@ class _HandState extends State<Hand> {
       // Align bottom
       crossAxisAlignment: CrossAxisAlignment.end,
 
-      children: buildHandView(this.hand).map<Tile>((MTile mTile) => Tile(mTile, onTap(mTile), height: activeTile != null && mTile == activeTile ? 85 : 60)).toList()
+      children: buildHandView(this.hand, this.newTile).map<Widget>(
+        (MTile mTile) => AnimatedContainer(
+            height: mTile == activeTile ? 85 : 60,
+            duration: const Duration(milliseconds: 10),
+            child: Tile(
+              mTile,
+              onTap(mTile),
+              height: 60,
+            ),
+          )).toList()
     );
   }
 }
