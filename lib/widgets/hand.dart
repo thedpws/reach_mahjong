@@ -21,7 +21,7 @@ class _HandState extends State<Hand> {
   _HandState(this.hand);
 
 
-  MTile newTile = new RandomMTile();
+  MTile newTile = MTile.random();
 
   late MTile activeTile = newTile;
 
@@ -37,7 +37,7 @@ class _HandState extends State<Hand> {
     }
 
     List<MTile> buildHandView(List<MTile> hand) {
-      return new List.from(hand)..addAll([new EmptyMTile(), this.newTile]);
+      return List.from(hand)..addAll([MTile.empty(), this.newTile]);
     }
 
     return Row(

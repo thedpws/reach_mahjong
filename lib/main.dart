@@ -133,16 +133,16 @@ class GameUI extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<MTile> hand = <MTile>[
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
-        RandomMTile(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
+        MTile.random(),
     ];
 
     return SafeArea(
@@ -154,10 +154,10 @@ class GameUI extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(4.0),
               child: MahjongTable(
-                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
-                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
-                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
-                List<MDiscard>.generate(13, (int index) => MDiscard(RandomMTile())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(MTile.random())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(MTile.random())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(MTile.random())),
+                List<MDiscard>.generate(13, (int index) => MDiscard(MTile.random())),
               )
             ),
 
