@@ -50,7 +50,7 @@ class _HandState extends State<Hand> {
       children: buildHandView(this.hand, this.newTile).map<Widget>(
         (MTile mTile) => AnimatedContainer(
             height: mTile == activeTile ? 85 : 60,
-            duration: const Duration(milliseconds: 10),
+            duration: const Duration(milliseconds: 50),
             child: Tile(
               mTile,
               onTap(mTile),
