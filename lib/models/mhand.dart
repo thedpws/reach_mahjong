@@ -5,22 +5,22 @@ import 'mmeld.dart';
 class MHand {
   final List<MTile> concealedTiles;
   final List<MMeld> melds;
+  MTile? drawnTile;
 
-  MHand(this.concealedTiles, this.melds, this.drawTile);
+  MHand(this.concealedTiles, this.melds);
 
-  MTile? drawTile;
+  bool contains(MTile t) {
+    if (concealedTiles.contains(t)) {
+      return true;
+    }
 
+    return melds.where((m) => m.tiles.contains(t)).length > 0;
 
-  List<MTile> tiles() {
-    // TODO: Return all tiles
-    return <MTile>[];
   }
 
-  void discard(MTile t) {
+  void discard(MTile toDiscard) {
     // TODO: Discard this tile from the concealed
+    concealedTiles.remove(toDiscard);
   }
 
-  void draw(MTile t) {
-    this.drawTile = t;
-  }
 }

@@ -23,4 +23,13 @@ class MTile {
         return MTile(null);
     }
 
+    @override
+    bool operator ==(Object other) =>
+        other is MTile &&
+        other.runtimeType == runtimeType &&
+        other.name == name;
+
+    @override
+    int get hashCode => name.hashCode;
+
 }

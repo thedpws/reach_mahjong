@@ -15,6 +15,20 @@ class _SettingsMenuState extends State<SettingsMenu> {
 
   @override
   Widget build(BuildContext context) {
+    return CupertinoButton(
+      onPressed: () {
+        setState((){ _isExpanded = !_isExpanded; });
+      },
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: SizedBox(
+          width: 50.0,
+          height: 50.0,
+          child: _isExpanded ? null: Center(child: Icon(CupertinoIcons.bars)),
+        ),
+      )
+    );
+    /*
     return !_isExpanded ? CupertinoButton(
       child: Container(
         decoration: BoxDecoration(color: Colors.white),
@@ -43,6 +57,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
             ]
           ),
     );
+    */
 
   }
 }
